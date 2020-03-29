@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+service WorldBank {
+    rpc ListCountries (Void) returns (stream Country) {
+    }
+
+    rpc SearchCountry (SearchString) returns (stream Country) {
+    }
+
+    rpc GetCountry (CountryID) returns (Country) {
+    }
+}
+
+message SearchString {
+    string searchString = 1;
+}
+
+message CountryID {
+    string id = 1;
+}
+
+message Country {
+
+}
+
+message Void {
+}

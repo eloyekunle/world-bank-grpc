@@ -1,7 +1,10 @@
 package main
 
-import "log"
+import "k8s.io/klog/v2"
 
 func main() {
-	log.Printf("hello, world!")
+	rootCmd := newServerCommand()
+	rootCmd.AddCommand(newVersionCmd(), newClientCommand())
+
+	klog.Exit(rootCmd.Execute())
 }

@@ -12,38 +12,18 @@ SRC_DIRS := cmd pkg # directories which hold app source (not vendored)
 
 IMAGE := $(REGISTRY)/$(BIN)
 
-BUILD_IMAGE ?= golang:1.14-alpine
-
 all: build
 
 # Directories that we need created to build/test.
-BUILD_DIRS := bin/     \
-              .go/bin  \
-              .go/cache
+BUILD_DIRS := bin/
 
 # This will build the binary under ./.go and update the real binary iff needed.
 .PHONY: build
 build: $(BUILD_DIRS)
 	@echo "making $(OUTBIN)"
-	@docker run                             \
-	    -i                                  \
-	    --rm                                \
-	    -u $$(id -u):$$(id -g)              \
-	    -v $$(pwd):/src                     \
-	    -w /src                             \
-	    -v $$(pwd)/.go/bin:/go/bin			\
-	    -v $$(pwd)/.go/cache:/.cache        \
-	    --env HTTP_PROXY=$(HTTP_PROXY)      \
-	    --env HTTPS_PROXY=$(HTTPS_PROXY)    \
-	    $(BUILD_IMAGE)                      \
-	    /bin/sh -c "                        \
-	        VERSION=$(VERSION)              \
-	        OUTBIN=$(OUTBIN)			    \
-	        ./build/build.sh                \
-	    "
-	@if ! cmp -s .go/$(OUTBIN) $(OUTBIN); then \
-	    mv .go/$(OUTBIN) $(OUTBIN);            \
-	fi
+	@VERSION=$(VERSION)				\
+		OUTBIN=$(OUTBIN) 			\
+		./build/build.sh
 
 container: .container say_container_name
 .container: build
@@ -64,20 +44,9 @@ version:
 	@echo $(VERSION)
 
 test: $(BUILD_DIRS)
-	@docker run                          \
-	    -i                               \
-	    --rm                             \
-	    -u $$(id -u):$$(id -g)           \
-	    -v $$(pwd):/src                  \
-	    -w /src                          \
-	    -v $$(pwd)/.go/cache:/.cache     \
-	    --env HTTP_PROXY=$(HTTP_PROXY)   \
-	    --env HTTPS_PROXY=$(HTTPS_PROXY) \
-	    $(BUILD_IMAGE)                   \
-	    /bin/sh -c "                     \
-	        VERSION=$(VERSION)           \
-	        ./build/test.sh $(SRC_DIRS)  \
-	    "
+	@VERSION=$(VERSION)				\
+		OUTBIN=$(OUTBIN) 			\
+		./build/test.sh $(SRC_DIRS)
 
 lint:
 	@hash golangci-lint > /dev/null 2>&1; if [ $$? -ne 0 ]; then \
@@ -87,6 +56,13 @@ lint:
 
 $(BUILD_DIRS):
 	@mkdir -p $@
+
+generate:
+	@ if ! which protoc > /dev/null; then \
+		echo "error: protoc not installed" >&2; \
+		exit 1; \
+	fi
+	go generate github.com/eloyekunle/world-bank-grpc/...
 
 clean:
 	rm -rf .go bin

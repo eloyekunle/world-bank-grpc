@@ -1,20 +1,30 @@
 language: go
 
+go:
+  - 1.14.x
+  - 1.13.x
+  - 1.12.x
+
 services:
   - docker
 
+script:
+  - make test
+
 jobs:
   include:
-    - stage: test
-      script:
-        - make lint
-        - make test
+    - stage: lint
+      script: make lint
+    - stage: test_coverage
+      script: make test
       after_success:
         - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
       script: make push
 
 stages:
+  - lint
   - test
+  - test_coverage
   - name: deploy
     if: branch = master AND type != pull_request
