@@ -1,10 +1,13 @@
 package main
 
-import "k8s.io/klog/v2"
+import (
+	"github.com/spf13/cobra"
+	"k8s.io/klog/v2"
+)
 
 func main() {
-	rootCmd := newServerCommand()
-	rootCmd.AddCommand(newVersionCmd(), newClientCommand())
+	rootCmd := &cobra.Command{Use: "world-bank-grpc"}
+	rootCmd.AddCommand(newServerCommand(), newVersionCmd(), newClientCommand())
 
 	must(rootCmd.Execute())
 }

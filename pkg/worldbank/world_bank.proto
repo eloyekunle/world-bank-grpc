@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package worldbank;
+
 service WorldBank {
     rpc ListCountries (Void) returns (stream Country) {
     }
