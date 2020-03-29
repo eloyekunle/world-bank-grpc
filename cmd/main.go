@@ -6,5 +6,11 @@ func main() {
 	rootCmd := newServerCommand()
 	rootCmd.AddCommand(newVersionCmd(), newClientCommand())
 
-	klog.Exit(rootCmd.Execute())
+	must(rootCmd.Execute())
+}
+
+func must(err error) {
+	if err != nil {
+		klog.Exit(err)
+	}
 }

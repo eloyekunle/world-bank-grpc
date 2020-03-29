@@ -4,7 +4,7 @@ import "github.com/spf13/cobra"
 
 func newClientCommand() *cobra.Command {
 	return &cobra.Command{
-		Use:   "server",
+		Use:   "client",
 		Short: "Run the gRPC client",
 		Run:   runClient,
 	}
