@@ -12,7 +12,7 @@ SRC_DIRS := cmd pkg # directories which hold app source (not vendored)
 
 IMAGE := $(REGISTRY)/$(BIN)
 
-BUILD_IMAGE ?= golang:1.12-alpine
+BUILD_IMAGE ?= golang:1.14-alpine
 
 all: build
 
@@ -25,37 +25,37 @@ BUILD_DIRS := bin/     \
 .PHONY: build
 build: $(BUILD_DIRS)
 	@echo "making $(OUTBIN)"
-	@docker run                                                 \
-	    -i                                                      \
-	    --rm                                                    \
-	    -u $$(id -u):$$(id -g)                                  \
-	    -v $$(pwd):/src                                         \
-	    -w /src                                                 \
-	    -v $$(pwd)/.go/bin:/go/bin								\
-	    -v $$(pwd)/.go/cache:/.cache                            \
-	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
-	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
-	    $(BUILD_IMAGE)                                          \
-	    /bin/sh -c "                                            \
-	        VERSION=$(VERSION)                                  \
-	        OUTBIN=$(OUTBIN)			                        \
-	        ./build/build.sh                                    \
+	@docker run                             \
+	    -i                                  \
+	    --rm                                \
+	    -u $$(id -u):$$(id -g)              \
+	    -v $$(pwd):/src                     \
+	    -w /src                             \
+	    -v $$(pwd)/.go/bin:/go/bin			\
+	    -v $$(pwd)/.go/cache:/.cache        \
+	    --env HTTP_PROXY=$(HTTP_PROXY)      \
+	    --env HTTPS_PROXY=$(HTTPS_PROXY)    \
+	    $(BUILD_IMAGE)                      \
+	    /bin/sh -c "                        \
+	        VERSION=$(VERSION)              \
+	        OUTBIN=$(OUTBIN)			    \
+	        ./build/build.sh                \
 	    "
 	@if ! cmp -s .go/$(OUTBIN) $(OUTBIN); then \
 	    mv .go/$(OUTBIN) $(OUTBIN);            \
-	    date >$@;                              \
 	fi
 
 container: .container say_container_name
 .container: build
-	@docker build --build-arg BIN=$(BIN) -t $(IMAGE):$(VERSION) .
+	docker build --build-arg BIN=$(BIN) -t $(IMAGE):$(VERSION) .
 
 say_container_name:
 	@echo "container: $(IMAGE):$(VERSION)"
 
 push: .push say_push_name
 .push: .container
-	@docker push $(IMAGE):$(VERSION)
+	echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin
+	docker push $(IMAGE):$(VERSION)
 
 say_push_name:
 	@echo "pushed: $(IMAGE):$(VERSION)"
@@ -64,22 +64,26 @@ version:
 	@echo $(VERSION)
 
 test: $(BUILD_DIRS)
-	@docker run                                                 \
-	    -i                                                      \
-	    --rm                                                    \
-	    -u $$(id -u):$$(id -g)                                  \
-	    -v $$(pwd):/src                                         \
-	    -w /src                                                 \
-	    -v $$(pwd)/.go/bin/$(OS)_$(ARCH):/go/bin                \
-	    -v $$(pwd)/.go/bin/$(OS)_$(ARCH):/go/bin/$(OS)_$(ARCH)  \
-	    -v $$(pwd)/.go/cache:/.cache                            \
-	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
-	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
-	    $(BUILD_IMAGE)                                          \
-	    /bin/sh -c "                                            \
-	        VERSION=$(VERSION)                                  \
-	        ./build/test.sh $(SRC_DIRS)                         \
+	@docker run                          \
+	    -i                               \
+	    --rm                             \
+	    -u $$(id -u):$$(id -g)           \
+	    -v $$(pwd):/src                  \
+	    -w /src                          \
+	    -v $$(pwd)/.go/cache:/.cache     \
+	    --env HTTP_PROXY=$(HTTP_PROXY)   \
+	    --env HTTPS_PROXY=$(HTTPS_PROXY) \
+	    $(BUILD_IMAGE)                   \
+	    /bin/sh -c "                     \
+	        VERSION=$(VERSION)           \
+	        ./build/test.sh $(SRC_DIRS)  \
 	    "
+
+lint:
+	@hash golangci-lint > /dev/null 2>&1; if [ $$? -ne 0 ]; then \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOPATH)/bin v1.24.0; \
+	fi
+	GO111MODULE=on golangci-lint run
 
 $(BUILD_DIRS):
 	@mkdir -p $@

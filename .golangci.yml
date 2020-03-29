@@ -1,0 +1,37 @@
+# golangci-lint configuration file.
+# Read more at: https://github.com/golangci/golangci-lint#config-file
+
+run:
+  deadline: 3m
+  issues-exit-code: 1
+  tests: true
+  modules-download-mode: readonly
+
+linters:
+  # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
+  disable-all: true
+  enable:
+    - bodyclose
+    - deadcode
+    - dupl
+    - goconst
+    - gocritic
+    - gofmt
+    - goimports
+    - golint
+    - gosimple
+    - govet
+    - ineffassign
+    - interfacer
+    - misspell
+    - nakedret
+    - staticcheck
+    - structcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+    - depguard
+    - maligned,prealloc
