@@ -11,6 +11,7 @@ fi
 export CGO_ENABLED=0
 export GO111MODULE=on
 
-go build                                                        \
+go install                                                      \
+    -installsuffix "static"                                     \
     -ldflags "-X $(go list -m)/pkg/version.VERSION=${VERSION}"  \
-    -o "${OUTBIN}" github.com/eloyekunle/world-bank-grpc/cmd
+    ./...
