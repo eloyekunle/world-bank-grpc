@@ -94,7 +94,7 @@ bin/world-bank-grpc client country --id NGA
 |     | Variable | Default         | Components |
 | --- | -------- | --------------- | ---------- |
 | 1   | PORT     | 50001           | server     |
-| 1   | HOST     | localhost:50001 | client     |
+| 2   | HOST     | localhost:50001 | client     |
 
 #### Kubernetes
 
@@ -117,3 +117,17 @@ change over the course of the application's lifetime.
 However, if the application were to have mutable state, e.g. ability to edit countries etc, then the first step in integrating
 an event store is to define possible events. For example: DELETE_COUNTRY, ADD_INCOME_LEVEL, EDIT_REGION etc. Next step is to define
 the events object themselves, as well as a processor for each event.
+
+#### Cloud-Native Understanding
+
+Some key attributes of cloud-native applications can be found on [TheNewStack.io](https://thenewstack.io/10-key-attributes-of-cloud-native-applications/).
+They include services managed through agile DevOps processes, centered around APIs for interaction, deployment on cloud infrastructure, etc.
+
+This application successfully implements cloud native understanding.
+
+#### 12factor app best practices
+
+12-factor app best practices include - storing config in the environment, one codebase tracked in version control,
+separate build and run stages, services exposed via port binding, logs as event streams, etc.
+
+This application successfully implements 12 factor app best practices.
