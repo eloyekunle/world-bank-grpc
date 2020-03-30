@@ -42,6 +42,7 @@ func NewServer() *WorldBankServer {
 }
 
 func (s *WorldBankServer) ListRegions(req *pb.Void, stream pb.WorldBank_ListRegionsServer) error {
+	klog.Info("received request - ListRegions")
 	for _, region := range s.regions {
 		pbRegion := &pb.Region{
 			Id:   region.ID,
@@ -57,6 +58,8 @@ func (s *WorldBankServer) ListRegions(req *pb.Void, stream pb.WorldBank_ListRegi
 }
 
 func (s *WorldBankServer) ListIncomeLevels(req *pb.Void, stream pb.WorldBank_ListIncomeLevelsServer) error {
+	klog.Info("received request - ListIncomeLevels")
+
 	for _, incomeLevel := range s.incomeLevels {
 		pbIncomeLevel := &pb.IncomeLevel{
 			Id:   incomeLevel.ID,
@@ -72,6 +75,8 @@ func (s *WorldBankServer) ListIncomeLevels(req *pb.Void, stream pb.WorldBank_Lis
 }
 
 func (s *WorldBankServer) ListLendingTypes(req *pb.Void, stream pb.WorldBank_ListLendingTypesServer) error {
+	klog.Info("received request - ListLendingTypes")
+
 	for _, lendingType := range s.lendingTypes {
 		pbLendingType := &pb.LendingType{
 			Id:   lendingType.ID,
@@ -87,6 +92,8 @@ func (s *WorldBankServer) ListLendingTypes(req *pb.Void, stream pb.WorldBank_Lis
 }
 
 func (s *WorldBankServer) ListCountries(req *pb.CountryFilter, stream pb.WorldBank_ListCountriesServer) error {
+	klog.Info("received request - ListCountries")
+
 	var matches []*pb.Country
 
 	for _, country := range s.countries {
@@ -111,6 +118,8 @@ func (s *WorldBankServer) ListCountries(req *pb.CountryFilter, stream pb.WorldBa
 }
 
 func (s *WorldBankServer) GetCountry(ctx context.Context, req *pb.CountryID) (*pb.Country, error) {
+	klog.Info("received request - GetCountry")
+
 	country, ok := s.countries[req.Id]
 	if !ok {
 		return nil, nil
