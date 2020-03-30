@@ -10,10 +10,8 @@ import (
 
 	"github.com/eloyekunle/world-bank-grpc/pkg/util"
 	pb "github.com/eloyekunle/world-bank-grpc/pkg/worldbank"
-	"github.com/go-logr/logr"
 	"github.com/jkkitakita/wbdata-go"
 	"k8s.io/klog/v2"
-	"k8s.io/klog/v2/klogr"
 )
 
 type WorldBankServer struct {
@@ -25,8 +23,6 @@ type WorldBankServer struct {
 	regions      map[string]*wbdata.Region
 	incomeLevels map[string]*wbdata.IncomeLevel
 	lendingTypes map[string]*wbdata.LendingType
-
-	log logr.Logger
 }
 
 func NewServer() *WorldBankServer {
@@ -36,12 +32,11 @@ func NewServer() *WorldBankServer {
 		regions:      make(map[string]*wbdata.Region),
 		incomeLevels: make(map[string]*wbdata.IncomeLevel),
 		lendingTypes: make(map[string]*wbdata.LendingType),
-		log:          klogr.New().WithValues("component", "server"),
 	}
 
-	s.log.Info("loading countries")
+	klog.Info("loading countries")
 	s.loadCountries()
-	s.log.Info("loaded countries")
+	klog.Info("loaded countries")
 
 	return s
 }
