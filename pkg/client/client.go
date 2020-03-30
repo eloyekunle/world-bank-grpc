@@ -4,19 +4,15 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"time"
 
 	pb "github.com/eloyekunle/world-bank-grpc/pkg/worldbank"
 	"k8s.io/klog/v2"
 )
 
-func PrintRegions(client pb.WorldBankClient) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
+func PrintRegions(ctx context.Context, client pb.WorldBankClient) {
 	stream, err := client.ListRegions(ctx, &pb.Void{})
 	if err != nil {
-		klog.Fatalf("%v.PrintRegions(_) = _, %v: ", client, err)
+		klog.Exitf("%v.PrintRegions(_) = _, %v: ", client, err)
 	}
 
 	for {
@@ -25,20 +21,17 @@ func PrintRegions(client pb.WorldBankClient) {
 			break
 		}
 		if err != nil {
-			klog.Fatalf("%v.PrintRegions(_) = _, %v: ", client, err)
+			klog.Exitf("%v.PrintRegions(_) = _, %v: ", client, err)
 		}
 
 		fmt.Println(region)
 	}
 }
 
-func PrintIncomeLevels(client pb.WorldBankClient) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
+func PrintIncomeLevels(ctx context.Context, client pb.WorldBankClient) {
 	stream, err := client.ListIncomeLevels(ctx, &pb.Void{})
 	if err != nil {
-		klog.Fatalf("%v.PrintIncomeLevels(_) = _, %v: ", client, err)
+		klog.Exitf("%v.PrintIncomeLevels(_) = _, %v: ", client, err)
 	}
 
 	for {
@@ -47,20 +40,17 @@ func PrintIncomeLevels(client pb.WorldBankClient) {
 			break
 		}
 		if err != nil {
-			klog.Fatalf("%v.PrintIncomeLevels(_) = _, %v: ", client, err)
+			klog.Exitf("%v.PrintIncomeLevels(_) = _, %v: ", client, err)
 		}
 
 		fmt.Println(incomeLevel)
 	}
 }
 
-func PrintLendingTypes(client pb.WorldBankClient) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
+func PrintLendingTypes(ctx context.Context, client pb.WorldBankClient) {
 	stream, err := client.ListLendingTypes(ctx, &pb.Void{})
 	if err != nil {
-		klog.Fatalf("%v.PrintLendingTypes(_) = _, %v: ", client, err)
+		klog.Exitf("%v.PrintLendingTypes(_) = _, %v: ", client, err)
 	}
 
 	for {
@@ -69,20 +59,17 @@ func PrintLendingTypes(client pb.WorldBankClient) {
 			break
 		}
 		if err != nil {
-			klog.Fatalf("%v.PrintLendingTypes(_) = _, %v: ", client, err)
+			klog.Exitf("%v.PrintLendingTypes(_) = _, %v: ", client, err)
 		}
 
 		fmt.Println(lendingType)
 	}
 }
 
-func PrintCountries(client pb.WorldBankClient, filter *pb.CountryFilter) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
+func PrintCountries(ctx context.Context, client pb.WorldBankClient, filter *pb.CountryFilter) {
 	stream, err := client.ListCountries(ctx, filter)
 	if err != nil {
-		klog.Fatalf("%v.PrintCountries(_) = _, %v: ", client, err)
+		klog.Exitf("%v.PrintCountries(_) = _, %v: ", client, err)
 	}
 
 	for {
@@ -91,9 +78,18 @@ func PrintCountries(client pb.WorldBankClient, filter *pb.CountryFilter) {
 			break
 		}
 		if err != nil {
-			klog.Fatalf("%v.PrintCountries(_) = _, %v: ", client, err)
+			klog.Exitf("%v.PrintCountries(_) = _, %v: ", client, err)
 		}
 
 		fmt.Println(country)
 	}
+}
+
+func PrintCountry(ctx context.Context, client pb.WorldBankClient, countryID *pb.CountryID) {
+	country, err := client.GetCountry(ctx, countryID)
+	if err != nil {
+		klog.Exitf("%v.PrintCountry(_) = _, %v: ", client, err)
+	}
+
+	fmt.Println(country)
 }

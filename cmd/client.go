@@ -1,6 +1,9 @@
 package main
 
 import (
+	"context"
+	"time"
+
 	"github.com/eloyekunle/world-bank-grpc/pkg/client"
 	"github.com/eloyekunle/world-bank-grpc/pkg/util"
 	pb "github.com/eloyekunle/world-bank-grpc/pkg/worldbank"
@@ -39,11 +42,20 @@ func newClientCommand() *cobra.Command {
 		Run:   runClient,
 	}
 
-	countriesCmd.Flags().StringP("region", "r", util.All, "Filter countries by region")
-	countriesCmd.Flags().StringP("income-level", "i", util.All, "Filter countries by income level")
-	countriesCmd.Flags().StringP("lending-type", "l", util.All, "Filter countries by lending type")
+	countriesCmd.Flags().StringP("region", "r", util.All, "Filter countries by region ID")
+	countriesCmd.Flags().StringP("income-level", "i", util.All, "Filter countries by income level ID")
+	countriesCmd.Flags().StringP("lending-type", "l", util.All, "Filter countries by lending type ID")
 
-	clientCmd.AddCommand(regionsCmd, incomeLevelsCmd, lendingTypesCmd, countriesCmd)
+	countryCmd := &cobra.Command{
+		Use:   "country",
+		Short: "Get a single country",
+		Run:   runClient,
+	}
+
+	countryCmd.Flags().String("id", util.All, "Country ID to fetch")
+	must(countryCmd.MarkFlagRequired("id"))
+
+	clientCmd.AddCommand(regionsCmd, incomeLevelsCmd, lendingTypesCmd, countriesCmd, countryCmd)
 
 	return clientCmd
 }
@@ -51,9 +63,12 @@ func newClientCommand() *cobra.Command {
 func runClient(cmd *cobra.Command, args []string) {
 	conn, err := grpc.Dial(":50001", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
-		klog.Fatalf("fail to dial: %v", err)
+		klog.Exitf("fail to dial: %v", err)
 	}
 	defer conn.Close()
+
+	ctx, cancel := context.WithTimeout(cmd.Context(), 10*time.Second)
+	defer cancel()
 
 	c := pb.NewWorldBankClient(conn)
 
@@ -64,20 +79,23 @@ func runClient(cmd *cobra.Command, args []string) {
 			IncomeLevel: mustStringFlag(cmd, "income-level"),
 			LendingType: mustStringFlag(cmd, "lending-type"),
 		}
-		client.PrintCountries(c, countryFilter)
+		client.PrintCountries(ctx, c, countryFilter)
+	case "country":
+		countryID := &pb.CountryID{Id: mustStringFlag(cmd, "id")}
+		client.PrintCountry(ctx, c, countryID)
 	case "regions":
-		client.PrintRegions(c)
+		client.PrintRegions(ctx, c)
 	case "income-levels":
-		client.PrintIncomeLevels(c)
+		client.PrintIncomeLevels(ctx, c)
 	case "lending-types":
-		client.PrintLendingTypes(c)
+		client.PrintLendingTypes(ctx, c)
 	}
 }
 
 func mustStringFlag(cmd *cobra.Command, key string) string {
 	out, err := cmd.Flags().GetString(key)
 	if err != nil {
-		klog.Fatal(err)
+		klog.Exit(err)
 	}
 
 	return out

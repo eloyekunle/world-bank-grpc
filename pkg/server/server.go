@@ -3,6 +3,7 @@
 package server
 
 import (
+	"context"
 	"net/http"
 	"sort"
 	"time"
@@ -92,6 +93,7 @@ func (s *WorldBankServer) ListLendingTypes(req *pb.Void, stream pb.WorldBank_Lis
 
 func (s *WorldBankServer) ListCountries(req *pb.CountryFilter, stream pb.WorldBank_ListCountriesServer) error {
 	var matches []*pb.Country
+
 	for _, country := range s.countries {
 		if (req.Region == util.All || req.Region == country.Region.ID) &&
 			(req.LendingType == util.All || req.LendingType == country.LendingType.ID) &&
@@ -113,15 +115,13 @@ func (s *WorldBankServer) ListCountries(req *pb.CountryFilter, stream pb.WorldBa
 	return nil
 }
 
-func wbToPbCountry(country wbdata.Country) *pb.Country {
-	return &pb.Country{
-		Id:          country.ID,
-		Name:        country.Name,
-		Capital:     country.CapitalCity,
-		Region:      country.Region.Value,
-		IncomeLevel: country.IncomeLevel.Value,
-		LendingType: country.LendingType.Value,
+func (s *WorldBankServer) GetCountry(ctx context.Context, req *pb.CountryID) (*pb.Country, error) {
+	country, ok := s.countries[req.Id]
+	if !ok {
+		return nil, nil
 	}
+
+	return wbToPbCountry(*country), nil
 }
 
 func (s *WorldBankServer) loadCountries() {
@@ -130,7 +130,7 @@ func (s *WorldBankServer) loadCountries() {
 		PerPage: 400, // loads everything at once
 	})
 	if err != nil {
-		klog.Fatalf("failed to load countries: %v", err)
+		klog.Exitf("failed to load countries: %v", err)
 	}
 
 	sort.Slice(countries, func(i, j int) bool {
@@ -157,5 +157,16 @@ func (s *WorldBankServer) loadCountries() {
 		if _, ok := s.lendingTypes[country.LendingType.ID]; !ok {
 			s.lendingTypes[country.LendingType.ID] = &country.LendingType
 		}
+	}
+}
+
+func wbToPbCountry(country wbdata.Country) *pb.Country {
+	return &pb.Country{
+		Id:          country.ID,
+		Name:        country.Name,
+		Capital:     country.CapitalCity,
+		Region:      country.Region.Value,
+		IncomeLevel: country.IncomeLevel.Value,
+		LendingType: country.LendingType.Value,
 	}
 }
