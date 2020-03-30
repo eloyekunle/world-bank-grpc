@@ -98,8 +98,22 @@ bin/world-bank-grpc client country --id NGA
 
 #### Kubernetes
 
-Kubernetes manifests have been provided in [kubernetes](./kubernetes). To make the service available to an external client
+Kubernetes manifests have been provided in [kubernetes](./kubernetes). 
+
+To make the service available to an external client
 from the cluster, the user can setup an Ingress to the provided service with the `NGINX` provider.
  
 Optionally, the user can also provision TLS encryption. In this case, the client will have to be updated to trust the
 certificate authority (CA).
+
+#### Event Store
+
+The benefit of having an event store will be to ensure that every change to the state of the application is captured as an event,
+and that the events are stored in the same sequence they were applied for the same lifetime as the application itself.
+
+This application right now has immutable state, because the countries, regions, income levels and lending types do not
+change over the course of the application's lifetime.
+
+However, if the application were to have mutable state, e.g. ability to edit countries etc, then the first step in integrating
+an event store is to define possible events. For example: DELETE_COUNTRY, ADD_INCOME_LEVEL, EDIT_REGION etc. Next step is to define
+the events object themselves, as well as a processor for each event.
