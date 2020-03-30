@@ -48,7 +48,7 @@ func (s *WorldBankServer) ListRegions(req *pb.Void, stream pb.WorldBank_ListRegi
 	for _, region := range s.regions {
 		pbRegion := &pb.Region{
 			Id:   region.ID,
-			Name: region.Code,
+			Name: region.Value,
 		}
 
 		if err := stream.Send(pbRegion); err != nil {
@@ -85,8 +85,8 @@ func (s *WorldBankServer) loadCountries() {
 			s.regions[country.Region.ID] = &country.Region
 		}
 
-		if _, ok := s.incomeLevels[country.IncomeLevels.ID]; !ok {
-			s.incomeLevels[country.IncomeLevels.ID] = &country.IncomeLevels
+		if _, ok := s.incomeLevels[country.IncomeLevel.ID]; !ok {
+			s.incomeLevels[country.IncomeLevel.ID] = &country.IncomeLevel
 		}
 
 		if _, ok := s.lendingTypes[country.LendingType.ID]; !ok {

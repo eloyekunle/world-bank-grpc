@@ -2,8 +2,8 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"io"
-	"log"
 	"time"
 
 	pb "github.com/eloyekunle/world-bank-grpc/pkg/worldbank"
@@ -41,7 +41,8 @@ func PrintRegions() {
 		if err != nil {
 			klog.Fatalf("%v.PrintRegions(_) = _, %v: ", client, err)
 		}
-		log.Println(region)
+
+		fmt.Println(region)
 	}
 }
 
