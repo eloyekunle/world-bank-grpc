@@ -12,7 +12,7 @@ service WorldBank {
     rpc ListLendingTypes (Void) returns (stream LendingType) {
     }
 
-    rpc ListCountries (Void) returns (stream Country) {
+    rpc ListCountries (CountryFilter) returns (stream Country) {
     }
 
     rpc GetCountry (CountryID) returns (Country) {
@@ -27,9 +27,19 @@ message CountryID {
     string id = 1;
 }
 
+message CountryFilter {
+    string incomeLevel = 1;
+    string region = 2;
+    string lendingType = 3;
+}
+
 message Country {
     string id = 1;
     string name = 2;
+    string capital = 3;
+    string region = 4;
+    string incomeLevel = 5;
+    string lendingType = 6;
 }
 
 message Region {

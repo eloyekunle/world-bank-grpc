@@ -7,6 +7,7 @@ import (
 	"sort"
 	"time"
 
+	"github.com/eloyekunle/world-bank-grpc/pkg/util"
 	pb "github.com/eloyekunle/world-bank-grpc/pkg/worldbank"
 	"github.com/go-logr/logr"
 	"github.com/jkkitakita/wbdata-go"
@@ -87,6 +88,40 @@ func (s *WorldBankServer) ListLendingTypes(req *pb.Void, stream pb.WorldBank_Lis
 	}
 
 	return nil
+}
+
+func (s *WorldBankServer) ListCountries(req *pb.CountryFilter, stream pb.WorldBank_ListCountriesServer) error {
+	var matches []*pb.Country
+	for _, country := range s.countries {
+		if (req.Region == util.All || req.Region == country.Region.ID) &&
+			(req.LendingType == util.All || req.LendingType == country.LendingType.ID) &&
+			(req.IncomeLevel == util.All || req.IncomeLevel == country.IncomeLevel.ID) {
+			matches = append(matches, wbToPbCountry(*country))
+		}
+	}
+
+	sort.Slice(matches, func(i, j int) bool {
+		return matches[i].Name < matches[j].Name
+	})
+
+	for _, country := range matches {
+		if err := stream.Send(country); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func wbToPbCountry(country wbdata.Country) *pb.Country {
+	return &pb.Country{
+		Id:          country.ID,
+		Name:        country.Name,
+		Capital:     country.CapitalCity,
+		Region:      country.Region.Value,
+		IncomeLevel: country.IncomeLevel.Value,
+		LendingType: country.LendingType.Value,
+	}
 }
 
 func (s *WorldBankServer) loadCountries() {

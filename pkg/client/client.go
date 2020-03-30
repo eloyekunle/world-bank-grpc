@@ -7,26 +7,12 @@ import (
 	"time"
 
 	pb "github.com/eloyekunle/world-bank-grpc/pkg/worldbank"
-	"google.golang.org/grpc"
 	"k8s.io/klog/v2"
 )
 
-func newClient() (*grpc.ClientConn, pb.WorldBankClient) {
-	conn, err := grpc.Dial(":50001", grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		klog.Fatalf("fail to dial: %v", err)
-	}
-
-	client := pb.NewWorldBankClient(conn)
-	return conn, client
-}
-
-func PrintRegions() {
+func PrintRegions(client pb.WorldBankClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	conn, client := newClient()
-	defer conn.Close()
 
 	stream, err := client.ListRegions(ctx, &pb.Void{})
 	if err != nil {
@@ -46,12 +32,9 @@ func PrintRegions() {
 	}
 }
 
-func PrintIncomeLevels() {
+func PrintIncomeLevels(client pb.WorldBankClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	conn, client := newClient()
-	defer conn.Close()
 
 	stream, err := client.ListIncomeLevels(ctx, &pb.Void{})
 	if err != nil {
@@ -71,12 +54,9 @@ func PrintIncomeLevels() {
 	}
 }
 
-func PrintLendingTypes() {
+func PrintLendingTypes(client pb.WorldBankClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	conn, client := newClient()
-	defer conn.Close()
 
 	stream, err := client.ListLendingTypes(ctx, &pb.Void{})
 	if err != nil {
@@ -93,5 +73,27 @@ func PrintLendingTypes() {
 		}
 
 		fmt.Println(lendingType)
+	}
+}
+
+func PrintCountries(client pb.WorldBankClient, filter *pb.CountryFilter) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	stream, err := client.ListCountries(ctx, filter)
+	if err != nil {
+		klog.Fatalf("%v.PrintCountries(_) = _, %v: ", client, err)
+	}
+
+	for {
+		country, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			klog.Fatalf("%v.PrintCountries(_) = _, %v: ", client, err)
+		}
+
+		fmt.Println(country)
 	}
 }
