@@ -13,4 +13,4 @@ export GO111MODULE=on
 
 go build                                                        \
     -ldflags "-X $(go list -m)/pkg/version.VERSION=${VERSION}"  \
-    -o "${OUTBIN}" github.com/eloyekunle/world-bank-grpc/cmd
+    -o "${OUTBIN}" github.com/eloyekunle/world-bank-grpc/cmd/...

@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/eloyekunle/world-bank-grpc/pkg/env"
+
 	"github.com/eloyekunle/world-bank-grpc/pkg/client"
 	"github.com/eloyekunle/world-bank-grpc/pkg/util"
 	pb "github.com/eloyekunle/world-bank-grpc/pkg/worldbank"
@@ -61,7 +63,10 @@ func newClientCommand() *cobra.Command {
 }
 
 func runClient(cmd *cobra.Command, args []string) {
-	conn, err := grpc.Dial(":50001", grpc.WithInsecure(), grpc.WithBlock())
+	port := env.GetEnvFallback(env.EnvPort, env.DefaultPort)
+	target := ":" + port
+
+	conn, err := grpc.Dial(target, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		klog.Exitf("fail to dial: %v", err)
 	}

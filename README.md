@@ -31,6 +31,66 @@ make install
 This places the binary in `$GOPATH/bin/world-bank-grpc`. If `$GOPATH/bin` is in your `PATH` already, you can simply run
 `world-bank-grpc` to use the application.
 
+Depending on how you installed the application, you can run either `bin/world-bank-grpc` (if built) or `world-bank-grpc` (if installed).
+
+To see available commands, run this command:
+
+```shell script
+bin/world-bank-grpc --help
+```
+
+You can also view help for a sub-command by adding `help` after it. E.g.:
+
+```shell script
+bin/world-bank-grpc client --help
+```
+
 #### Starting the Server
 
+To start the gRPC server, run this command:
+
+```shell script
+bin/world-bank-grpc server
+```
+
+The server listens on port `50001` by default but this can be overridden by the `PORT` environment variable.
+
 #### Running the Client
+
+To view available client commands, run this:
+
+```shell script
+bin/world-bank-grpc client --help
+```
+
+Example Usages:
+
+1. List all regions
+
+```shell script
+bin/world-bank-grpc client regions
+```
+
+2. List countries in Sub-Saharan Africa (ID: SSF)
+
+```shell script
+bin/world-bank-grpc client countries --region SSF
+```
+
+3. List High Income (ID: HIC) countries with IBRD lending type (ID: IBD)
+
+```shell script
+bin/world-bank-grpc client countries --lending-type IBD --income-level HIC
+```
+
+4. Get details about Nigeria
+
+```shell script
+bin/world-bank-grpc client country --id NGA
+```
+
+#### Environment Variables
+
+|     | Variable | Default | Components     |
+| --- | -------- | ------- | -------------- |
+| 1   | PORT     | 50001   | server, client |
