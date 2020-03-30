@@ -100,6 +100,8 @@ bin/world-bank-grpc client country --id NGA
 We use [mocking](./pkg/mock_worldbank) to test client-side logic without the overhead of connecting to a real server.
 Mocking enables users to write light-weight unit tests to check functionalities on client-side without invoking RPC calls to a server.
 
+When tests have passed, the application is built and automatically deployed to [Docker Hub](https://hub.docker.com/repository/docker/playmice/world-bank-grpc).
+
 #### Kubernetes
 
 Kubernetes manifests have been provided in [kubernetes](./kubernetes).
