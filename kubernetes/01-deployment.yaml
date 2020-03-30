@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: world-bank-grpc
-          image: playmice/world-bank-grpc
+          image: playmice/world-bank-grpc:1.0.0
           ports:
             - name: server-port
               containerPort: 50001

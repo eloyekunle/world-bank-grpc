@@ -95,3 +95,11 @@ bin/world-bank-grpc client country --id NGA
 | --- | -------- | --------------- | ---------- |
 | 1   | PORT     | 50001           | server     |
 | 1   | HOST     | localhost:50001 | client     |
+
+#### Kubernetes
+
+Kubernetes manifests have been provided in [kubernetes](./kubernetes). To make the service available to an external client
+from the cluster, the user can setup an Ingress to the provided service with the `NGINX` provider.
+ 
+Optionally, the user can also provision TLS encryption. In this case, the client will have to be updated to trust the
+certificate authority (CA).
