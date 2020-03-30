@@ -1,7 +1,5 @@
 FROM gcr.io/distroless/static
 
-ARG BIN
+ADD bin/world-bank-grpc /world-bank-grpc
 
-ADD bin/$BIN /$BIN
-
-ENTRYPOINT ["/{$BIN}"]
+ENTRYPOINT ["/world-bank-grpc", "server"]

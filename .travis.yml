@@ -15,16 +15,11 @@ jobs:
   include:
     - stage: lint
       script: make lint
-    - stage: test_coverage
-      script: make test
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
       script: make push
 
 stages:
   - lint
   - test
-  - test_coverage
   - name: deploy
     if: branch = master AND type != pull_request

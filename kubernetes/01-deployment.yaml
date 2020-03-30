@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: world-bank-grpc
+  name: world-bank-grpc
+  namespace: world-bank-grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: world-bank-grpc
+  template:
+    metadata:
+      labels:
+        app: world-bank-grpc
+      namespace: world-bank-grpc
+    spec:
+      containers:
+        - name: world-bank-grpc
+          image: playmice/world-bank-grpc:1.0.0
+          ports:
+            - name: server-port
+              containerPort: 50001
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "50001"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "55Mi"
