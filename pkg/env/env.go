@@ -3,9 +3,8 @@ package env
 import "os"
 
 const (
-	DefaultPort = "50001"
-
 	EnvPort = "PORT"
+	EnvHost = "HOST"
 )
 
 func GetEnvFallback(key, fallback string) string {

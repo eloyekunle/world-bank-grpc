@@ -12,6 +12,10 @@ import (
 	"k8s.io/klog/v2"
 )
 
+const (
+	defaultPort = "50001"
+)
+
 func newServerCommand() *cobra.Command {
 	return &cobra.Command{
 		Use:   "server",
@@ -22,7 +26,7 @@ func newServerCommand() *cobra.Command {
 }
 
 func runServer(cmd *cobra.Command, args []string) {
-	port := env.GetEnvFallback(env.EnvPort, env.DefaultPort)
+	port := env.GetEnvFallback(env.EnvPort, defaultPort)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {

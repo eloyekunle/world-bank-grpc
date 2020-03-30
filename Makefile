@@ -32,7 +32,7 @@ install:
 
 container: .container say_container_name
 .container: build
-	docker build --build-arg BIN=$(BIN) -t $(IMAGE):$(VERSION) .
+	docker build -t $(IMAGE):$(VERSION) .
 
 say_container_name:
 	@echo "container: $(IMAGE):$(VERSION)"

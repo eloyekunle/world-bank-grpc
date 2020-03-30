@@ -91,6 +91,7 @@ bin/world-bank-grpc client country --id NGA
 
 #### Environment Variables
 
-|     | Variable | Default | Components     |
-| --- | -------- | ------- | -------------- |
-| 1   | PORT     | 50001   | server, client |
+|     | Variable | Default         | Components |
+| --- | -------- | --------------- | ---------- |
+| 1   | PORT     | 50001           | server     |
+| 1   | HOST     | localhost:50001 | client     |

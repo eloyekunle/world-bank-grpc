@@ -14,6 +14,10 @@ import (
 	"k8s.io/klog/v2"
 )
 
+const (
+	defaultHost = "localhost:50001"
+)
+
 func newClientCommand() *cobra.Command {
 	clientCmd := &cobra.Command{
 		Use:   "client",
@@ -63,10 +67,9 @@ func newClientCommand() *cobra.Command {
 }
 
 func runClient(cmd *cobra.Command, args []string) {
-	port := env.GetEnvFallback(env.EnvPort, env.DefaultPort)
-	target := ":" + port
+	host := env.GetEnvFallback(env.EnvHost, defaultHost)
 
-	conn, err := grpc.Dial(target, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(host, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		klog.Exitf("fail to dial: %v", err)
 	}
