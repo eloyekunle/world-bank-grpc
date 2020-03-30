@@ -23,12 +23,6 @@ spec:
             - name: server-port
               containerPort: 50001
               protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: server-port
-            initialDelaySeconds: 5
-            periodSeconds: 2
           env:
             - name: PORT
               value: "50001"
