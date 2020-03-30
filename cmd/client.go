@@ -20,7 +20,7 @@ func newClientCommand() *cobra.Command {
 
 	incomeLevelsCmd := &cobra.Command{
 		Use:   "income-levels",
-		Short: "Fetch all regions",
+		Short: "Fetch all income levels",
 		Run:   runIncomeLevels,
 	}
 

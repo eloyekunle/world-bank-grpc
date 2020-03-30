@@ -72,5 +72,26 @@ func PrintIncomeLevels() {
 }
 
 func PrintLendingTypes() {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
+	conn, client := newClient()
+	defer conn.Close()
+
+	stream, err := client.ListLendingTypes(ctx, &pb.Void{})
+	if err != nil {
+		klog.Fatalf("%v.PrintLendingTypes(_) = _, %v: ", client, err)
+	}
+
+	for {
+		lendingType, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			klog.Fatalf("%v.PrintLendingTypes(_) = _, %v: ", client, err)
+		}
+
+		fmt.Println(lendingType)
+	}
 }

@@ -74,6 +74,21 @@ func (s *WorldBankServer) ListIncomeLevels(req *pb.Void, stream pb.WorldBank_Lis
 	return nil
 }
 
+func (s *WorldBankServer) ListLendingTypes(req *pb.Void, stream pb.WorldBank_ListLendingTypesServer) error {
+	for _, lendingType := range s.lendingTypes {
+		pbLendingType := &pb.LendingType{
+			Id:   lendingType.ID,
+			Name: lendingType.Value,
+		}
+
+		if err := stream.Send(pbLendingType); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (s *WorldBankServer) loadCountries() {
 	_, countries, err := s.client.Countries.ListCountries(wbdata.PageParams{
 		Page:    1,
