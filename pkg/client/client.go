@@ -47,7 +47,28 @@ func PrintRegions() {
 }
 
 func PrintIncomeLevels() {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
+	conn, client := newClient()
+	defer conn.Close()
+
+	stream, err := client.ListIncomeLevels(ctx, &pb.Void{})
+	if err != nil {
+		klog.Fatalf("%v.PrintIncomeLevels(_) = _, %v: ", client, err)
+	}
+
+	for {
+		incomeLevel, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			klog.Fatalf("%v.PrintIncomeLevels(_) = _, %v: ", client, err)
+		}
+
+		fmt.Println(incomeLevel)
+	}
 }
 
 func PrintLendingTypes() {
