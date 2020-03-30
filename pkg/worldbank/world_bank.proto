@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package worldbank;
+
+service WorldBank {
+    rpc ListRegions (Void) returns (stream Region) {
+    }
+
+    rpc ListIncomeLevels (Void) returns (stream IncomeLevel) {
+    }
+
+    rpc ListLendingTypes (Void) returns (stream LendingType) {
+    }
+
+    rpc ListCountries (CountryFilter) returns (stream Country) {
+    }
+
+    rpc GetCountry (CountryID) returns (Country) {
+    }
+}
+
+message SearchString {
+    string searchString = 1;
+}
+
+message CountryID {
+    string id = 1;
+}
+
+message CountryFilter {
+    string incomeLevel = 1;
+    string region = 2;
+    string lendingType = 3;
+}
+
+message Country {
+    string id = 1;
+    string name = 2;
+    string capital = 3;
+    string region = 4;
+    string incomeLevel = 5;
+    string lendingType = 6;
+}
+
+message Region {
+    string id = 1;
+    string name = 2;
+}
+
+message IncomeLevel {
+    string id = 1;
+    string name = 2;
+}
+
+message LendingType {
+    string id = 1;
+    string name = 2;
+}
+
+message Void {
+}

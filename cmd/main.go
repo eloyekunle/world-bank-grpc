@@ -1,7 +1,19 @@
 package main
 
-import "log"
+import (
+	"github.com/spf13/cobra"
+	"k8s.io/klog/v2"
+)
 
 func main() {
-	log.Printf("hello, world!")
+	rootCmd := &cobra.Command{Use: "world-bank-grpc"}
+	rootCmd.AddCommand(newServerCommand(), newVersionCmd(), newClientCommand())
+
+	must(rootCmd.Execute())
+}
+
+func must(err error) {
+	if err != nil {
+		klog.Exit(err)
+	}
 }
