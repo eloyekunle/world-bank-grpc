@@ -3,6 +3,7 @@ module github.com/eloyekunle/world-bank-grpc
 go 1.14
 
 require (
+	github.com/go-logr/logr v0.1.0
 	github.com/golang/protobuf v1.3.5
 	github.com/jkkitakita/wbdata-go v0.0.0-20200322142525-c603839aa304
 	github.com/spf13/cobra v0.0.7
