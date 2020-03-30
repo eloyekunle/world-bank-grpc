@@ -133,6 +133,99 @@ func (m *Country) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Country proto.InternalMessageInfo
 
+type Region struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Region) Reset()         { *m = Region{} }
+func (m *Region) String() string { return proto.CompactTextString(m) }
+func (*Region) ProtoMessage()    {}
+func (*Region) Descriptor() ([]byte, []int) {
+	return fileDescriptor_80e88e541218c326, []int{3}
+}
+
+func (m *Region) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Region.Unmarshal(m, b)
+}
+func (m *Region) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Region.Marshal(b, m, deterministic)
+}
+func (m *Region) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Region.Merge(m, src)
+}
+func (m *Region) XXX_Size() int {
+	return xxx_messageInfo_Region.Size(m)
+}
+func (m *Region) XXX_DiscardUnknown() {
+	xxx_messageInfo_Region.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Region proto.InternalMessageInfo
+
+type IncomeLevel struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *IncomeLevel) Reset()         { *m = IncomeLevel{} }
+func (m *IncomeLevel) String() string { return proto.CompactTextString(m) }
+func (*IncomeLevel) ProtoMessage()    {}
+func (*IncomeLevel) Descriptor() ([]byte, []int) {
+	return fileDescriptor_80e88e541218c326, []int{4}
+}
+
+func (m *IncomeLevel) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_IncomeLevel.Unmarshal(m, b)
+}
+func (m *IncomeLevel) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_IncomeLevel.Marshal(b, m, deterministic)
+}
+func (m *IncomeLevel) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_IncomeLevel.Merge(m, src)
+}
+func (m *IncomeLevel) XXX_Size() int {
+	return xxx_messageInfo_IncomeLevel.Size(m)
+}
+func (m *IncomeLevel) XXX_DiscardUnknown() {
+	xxx_messageInfo_IncomeLevel.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_IncomeLevel proto.InternalMessageInfo
+
+type LendingType struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *LendingType) Reset()         { *m = LendingType{} }
+func (m *LendingType) String() string { return proto.CompactTextString(m) }
+func (*LendingType) ProtoMessage()    {}
+func (*LendingType) Descriptor() ([]byte, []int) {
+	return fileDescriptor_80e88e541218c326, []int{5}
+}
+
+func (m *LendingType) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_LendingType.Unmarshal(m, b)
+}
+func (m *LendingType) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_LendingType.Marshal(b, m, deterministic)
+}
+func (m *LendingType) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LendingType.Merge(m, src)
+}
+func (m *LendingType) XXX_Size() int {
+	return xxx_messageInfo_LendingType.Size(m)
+}
+func (m *LendingType) XXX_DiscardUnknown() {
+	xxx_messageInfo_LendingType.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_LendingType proto.InternalMessageInfo
+
 type Void struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -143,7 +236,7 @@ func (m *Void) Reset()         { *m = Void{} }
 func (m *Void) String() string { return proto.CompactTextString(m) }
 func (*Void) ProtoMessage()    {}
 func (*Void) Descriptor() ([]byte, []int) {
-	return fileDescriptor_80e88e541218c326, []int{3}
+	return fileDescriptor_80e88e541218c326, []int{6}
 }
 
 func (m *Void) XXX_Unmarshal(b []byte) error {
@@ -168,6 +261,9 @@ func init() {
 	proto.RegisterType((*SearchString)(nil), "worldbank.SearchString")
 	proto.RegisterType((*CountryID)(nil), "worldbank.CountryID")
 	proto.RegisterType((*Country)(nil), "worldbank.Country")
+	proto.RegisterType((*Region)(nil), "worldbank.Region")
+	proto.RegisterType((*IncomeLevel)(nil), "worldbank.IncomeLevel")
+	proto.RegisterType((*LendingType)(nil), "worldbank.LendingType")
 	proto.RegisterType((*Void)(nil), "worldbank.Void")
 }
 
@@ -176,20 +272,25 @@ func init() {
 }
 
 var fileDescriptor_80e88e541218c326 = []byte{
-	// 198 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x28, 0xcf, 0x2f, 0xca,
-	0x49, 0x89, 0x4f, 0x4a, 0xcc, 0xcb, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x04, 0x8b,
-	0x80, 0x04, 0x94, 0x8c, 0xb8, 0x78, 0x82, 0x53, 0x13, 0x8b, 0x92, 0x33, 0x82, 0x4b, 0x8a, 0x32,
-	0xf3, 0xd2, 0x85, 0x94, 0xb8, 0x78, 0x8a, 0x91, 0xf8, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x9c, 0x41,
-	0x28, 0x62, 0x4a, 0xd2, 0x5c, 0x9c, 0xce, 0xf9, 0xa5, 0x79, 0x25, 0x45, 0x95, 0x9e, 0x2e, 0x42,
-	0x7c, 0x5c, 0x4c, 0x99, 0x29, 0x50, 0x65, 0x4c, 0x99, 0x29, 0x4a, 0x9c, 0x5c, 0xec, 0x50, 0x49,
-	0x25, 0x36, 0x2e, 0x96, 0xb0, 0xfc, 0xcc, 0x14, 0xa3, 0x83, 0x8c, 0x5c, 0x9c, 0xe1, 0x20, 0x1b,
-	0x9d, 0x12, 0xf3, 0xb2, 0x85, 0x2c, 0xb8, 0x78, 0x7d, 0x32, 0x8b, 0x4b, 0x20, 0x8a, 0x32, 0x53,
-	0x8b, 0x85, 0xf8, 0xf5, 0xe0, 0xce, 0xd1, 0x03, 0xa9, 0x97, 0x12, 0x42, 0x12, 0x80, 0x99, 0xc5,
-	0x60, 0xc0, 0x28, 0xe4, 0xc0, 0xc5, 0x0b, 0x71, 0x2b, 0x54, 0x50, 0x48, 0x1c, 0x49, 0x21, 0xb2,
-	0x2f, 0x70, 0x9a, 0x60, 0xc1, 0xc5, 0xe5, 0x9e, 0x5a, 0x02, 0xd3, 0x2e, 0x82, 0xa9, 0xca, 0xd3,
-	0x05, 0xbb, 0xde, 0x24, 0x36, 0x70, 0xc8, 0x19, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x9f, 0x9f,
-	0x51, 0x59, 0x4d, 0x01, 0x00, 0x00,
+	// 276 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x52, 0xc1, 0x4a, 0xc3, 0x40,
+	0x10, 0x35, 0x41, 0xa2, 0x3b, 0x6d, 0xb4, 0x2e, 0xa2, 0xa2, 0x17, 0xd9, 0x93, 0xa7, 0x20, 0x15,
+	0xa1, 0x37, 0x45, 0x0b, 0x12, 0xc8, 0xa9, 0x15, 0x3d, 0x4a, 0xda, 0x1d, 0xe2, 0xd2, 0xba, 0x5b,
+	0x36, 0xab, 0xd2, 0x5f, 0xf7, 0x24, 0xdb, 0x6c, 0x65, 0xc4, 0x48, 0x8f, 0xf3, 0xf2, 0xde, 0x9b,
+	0xf7, 0x32, 0x0b, 0xbd, 0x4f, 0x63, 0xe7, 0xf2, 0x65, 0x52, 0xea, 0x59, 0xb6, 0xb0, 0xc6, 0x19,
+	0xce, 0x56, 0x88, 0x07, 0x44, 0x1f, 0xba, 0x63, 0x2c, 0xed, 0xf4, 0x75, 0xec, 0xac, 0xd2, 0x15,
+	0x17, 0xd0, 0xad, 0xc9, 0x7c, 0x12, 0x9d, 0x47, 0x17, 0x6c, 0xf4, 0x0b, 0x13, 0x67, 0xc0, 0xee,
+	0xcd, 0xbb, 0x76, 0x76, 0x99, 0x0f, 0xf9, 0x1e, 0xc4, 0x4a, 0x06, 0x5a, 0xac, 0xa4, 0x60, 0xb0,
+	0x13, 0x3e, 0x8a, 0x5d, 0x48, 0x46, 0x58, 0x29, 0xa3, 0x45, 0x0a, 0x9d, 0x5c, 0x4f, 0xcd, 0x1b,
+	0x16, 0xf8, 0x81, 0x73, 0x3f, 0x16, 0xa8, 0xa5, 0xd2, 0xd5, 0xe3, 0x72, 0x81, 0x22, 0x81, 0xed,
+	0x27, 0xa3, 0x64, 0xff, 0x2b, 0x06, 0xf6, 0xec, 0x93, 0xdd, 0x95, 0x7a, 0xc6, 0x07, 0x90, 0x16,
+	0xaa, 0x76, 0x8d, 0x99, 0xc2, 0x9a, 0xef, 0x67, 0x3f, 0xb1, 0x33, 0xcf, 0x3f, 0xe5, 0x04, 0x58,
+	0xef, 0xdc, 0xba, 0x8c, 0xf8, 0x35, 0x74, 0xbc, 0xb2, 0xd9, 0xdd, 0xa2, 0x3b, 0x20, 0x40, 0x08,
+	0xe8, 0x65, 0x37, 0xd0, 0xf3, 0x32, 0x12, 0xb4, 0x45, 0x7b, 0x44, 0x00, 0x5a, 0x89, 0x18, 0x90,
+	0x6a, 0x1b, 0x0c, 0xe8, 0x4f, 0xf0, 0x06, 0xb7, 0x90, 0x36, 0xc7, 0x08, 0x6d, 0xf8, 0x31, 0x21,
+	0xd3, 0x33, 0xfd, 0x5b, 0x7d, 0x00, 0xf0, 0x80, 0x6e, 0x2d, 0x3f, 0xfc, 0xcb, 0xca, 0x87, 0xed,
+	0xda, 0x49, 0xb2, 0x7a, 0x1a, 0x57, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x93, 0x93, 0x97, 0xbc,
+	0x2e, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -205,6 +306,9 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type WorldBankClient interface {
 	ListCountries(ctx context.Context, in *Void, opts ...grpc.CallOption) (WorldBank_ListCountriesClient, error)
+	ListRegions(ctx context.Context, in *Void, opts ...grpc.CallOption) (WorldBank_ListRegionsClient, error)
+	ListIncomeLevels(ctx context.Context, in *Void, opts ...grpc.CallOption) (WorldBank_ListIncomeLevelsClient, error)
+	ListLendingTypes(ctx context.Context, in *Void, opts ...grpc.CallOption) (WorldBank_ListLendingTypesClient, error)
 	SearchCountry(ctx context.Context, in *SearchString, opts ...grpc.CallOption) (WorldBank_SearchCountryClient, error)
 	GetCountry(ctx context.Context, in *CountryID, opts ...grpc.CallOption) (*Country, error)
 }
@@ -249,8 +353,104 @@ func (x *worldBankListCountriesClient) Recv() (*Country, error) {
 	return m, nil
 }
 
+func (c *worldBankClient) ListRegions(ctx context.Context, in *Void, opts ...grpc.CallOption) (WorldBank_ListRegionsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_WorldBank_serviceDesc.Streams[1], "/worldbank.WorldBank/ListRegions", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &worldBankListRegionsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type WorldBank_ListRegionsClient interface {
+	Recv() (*Region, error)
+	grpc.ClientStream
+}
+
+type worldBankListRegionsClient struct {
+	grpc.ClientStream
+}
+
+func (x *worldBankListRegionsClient) Recv() (*Region, error) {
+	m := new(Region)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *worldBankClient) ListIncomeLevels(ctx context.Context, in *Void, opts ...grpc.CallOption) (WorldBank_ListIncomeLevelsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_WorldBank_serviceDesc.Streams[2], "/worldbank.WorldBank/ListIncomeLevels", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &worldBankListIncomeLevelsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type WorldBank_ListIncomeLevelsClient interface {
+	Recv() (*IncomeLevel, error)
+	grpc.ClientStream
+}
+
+type worldBankListIncomeLevelsClient struct {
+	grpc.ClientStream
+}
+
+func (x *worldBankListIncomeLevelsClient) Recv() (*IncomeLevel, error) {
+	m := new(IncomeLevel)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *worldBankClient) ListLendingTypes(ctx context.Context, in *Void, opts ...grpc.CallOption) (WorldBank_ListLendingTypesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_WorldBank_serviceDesc.Streams[3], "/worldbank.WorldBank/ListLendingTypes", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &worldBankListLendingTypesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type WorldBank_ListLendingTypesClient interface {
+	Recv() (*LendingType, error)
+	grpc.ClientStream
+}
+
+type worldBankListLendingTypesClient struct {
+	grpc.ClientStream
+}
+
+func (x *worldBankListLendingTypesClient) Recv() (*LendingType, error) {
+	m := new(LendingType)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *worldBankClient) SearchCountry(ctx context.Context, in *SearchString, opts ...grpc.CallOption) (WorldBank_SearchCountryClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_WorldBank_serviceDesc.Streams[1], "/worldbank.WorldBank/SearchCountry", opts...)
+	stream, err := c.cc.NewStream(ctx, &_WorldBank_serviceDesc.Streams[4], "/worldbank.WorldBank/SearchCountry", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -293,6 +493,9 @@ func (c *worldBankClient) GetCountry(ctx context.Context, in *CountryID, opts ..
 // WorldBankServer is the server API for WorldBank service.
 type WorldBankServer interface {
 	ListCountries(*Void, WorldBank_ListCountriesServer) error
+	ListRegions(*Void, WorldBank_ListRegionsServer) error
+	ListIncomeLevels(*Void, WorldBank_ListIncomeLevelsServer) error
+	ListLendingTypes(*Void, WorldBank_ListLendingTypesServer) error
 	SearchCountry(*SearchString, WorldBank_SearchCountryServer) error
 	GetCountry(context.Context, *CountryID) (*Country, error)
 }
@@ -303,6 +506,15 @@ type UnimplementedWorldBankServer struct {
 
 func (*UnimplementedWorldBankServer) ListCountries(req *Void, srv WorldBank_ListCountriesServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListCountries not implemented")
+}
+func (*UnimplementedWorldBankServer) ListRegions(req *Void, srv WorldBank_ListRegionsServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListRegions not implemented")
+}
+func (*UnimplementedWorldBankServer) ListIncomeLevels(req *Void, srv WorldBank_ListIncomeLevelsServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListIncomeLevels not implemented")
+}
+func (*UnimplementedWorldBankServer) ListLendingTypes(req *Void, srv WorldBank_ListLendingTypesServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListLendingTypes not implemented")
 }
 func (*UnimplementedWorldBankServer) SearchCountry(req *SearchString, srv WorldBank_SearchCountryServer) error {
 	return status.Errorf(codes.Unimplemented, "method SearchCountry not implemented")
@@ -333,6 +545,69 @@ type worldBankListCountriesServer struct {
 }
 
 func (x *worldBankListCountriesServer) Send(m *Country) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _WorldBank_ListRegions_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Void)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(WorldBankServer).ListRegions(m, &worldBankListRegionsServer{stream})
+}
+
+type WorldBank_ListRegionsServer interface {
+	Send(*Region) error
+	grpc.ServerStream
+}
+
+type worldBankListRegionsServer struct {
+	grpc.ServerStream
+}
+
+func (x *worldBankListRegionsServer) Send(m *Region) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _WorldBank_ListIncomeLevels_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Void)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(WorldBankServer).ListIncomeLevels(m, &worldBankListIncomeLevelsServer{stream})
+}
+
+type WorldBank_ListIncomeLevelsServer interface {
+	Send(*IncomeLevel) error
+	grpc.ServerStream
+}
+
+type worldBankListIncomeLevelsServer struct {
+	grpc.ServerStream
+}
+
+func (x *worldBankListIncomeLevelsServer) Send(m *IncomeLevel) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _WorldBank_ListLendingTypes_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Void)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(WorldBankServer).ListLendingTypes(m, &worldBankListLendingTypesServer{stream})
+}
+
+type WorldBank_ListLendingTypesServer interface {
+	Send(*LendingType) error
+	grpc.ServerStream
+}
+
+type worldBankListLendingTypesServer struct {
+	grpc.ServerStream
+}
+
+func (x *worldBankListLendingTypesServer) Send(m *LendingType) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -388,6 +663,21 @@ var _WorldBank_serviceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ListCountries",
 			Handler:       _WorldBank_ListCountries_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListRegions",
+			Handler:       _WorldBank_ListRegions_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListIncomeLevels",
+			Handler:       _WorldBank_ListIncomeLevels_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListLendingTypes",
+			Handler:       _WorldBank_ListLendingTypes_Handler,
 			ServerStreams: true,
 		},
 		{

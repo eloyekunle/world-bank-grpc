@@ -6,6 +6,15 @@ service WorldBank {
     rpc ListCountries (Void) returns (stream Country) {
     }
 
+    rpc ListRegions (Void) returns (stream Region) {
+    }
+
+    rpc ListIncomeLevels (Void) returns (stream IncomeLevel) {
+    }
+
+    rpc ListLendingTypes (Void) returns (stream LendingType) {
+    }
+
     rpc SearchCountry (SearchString) returns (stream Country) {
     }
 
@@ -22,7 +31,23 @@ message CountryID {
 }
 
 message Country {
+    string id = 1;
+    string name = 2;
+}
 
+message Region {
+    string id = 1;
+    string name = 2;
+}
+
+message IncomeLevel {
+    string id = 1;
+    string name = 2;
+}
+
+message LendingType {
+    string id = 1;
+    string name = 2;
 }
 
 message Void {

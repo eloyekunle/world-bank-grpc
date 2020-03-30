@@ -21,12 +21,16 @@ func newServerCommand() *cobra.Command {
 }
 
 func runServer(cmd *cobra.Command, args []string) {
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 50001))
+	port := 50001
+
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		klog.Fatalf("failed to listen: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
 	worldbank.RegisterWorldBankServer(grpcServer, server.NewServer())
+
+	klog.Infof("gRPC server listening on port: %d", port)
 	grpcServer.Serve(lis)
 }
