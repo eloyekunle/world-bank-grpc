@@ -4,6 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/eloyekunle/world-bank-grpc)](https://goreportcard.com/report/github.com/eloyekunle/world-bank-grpc)
 
 This is a simple application to get country data from the [World Bank API](https://datahelpdesk.worldbank.org/knowledgebase/articles/889386-developer-information-overview).
+
 Countries can be filtered based on their:
 
 1. Income Levels
@@ -94,13 +95,18 @@ bin/world-bank-grpc client country --id NGA
 | 1   | PORT     | 50001           | server     |
 | 2   | HOST     | localhost:50001 | client     |
 
+#### Tests
+
+We use [mocking](./pkg/mock_worldbank) to test client-side logic without the overhead of connecting to a real server.
+Mocking enables users to write light-weight unit tests to check functionalities on client-side without invoking RPC calls to a server.
+
 #### Kubernetes
 
-Kubernetes manifests have been provided in [kubernetes](./kubernetes). 
+Kubernetes manifests have been provided in [kubernetes](./kubernetes).
 
 To make the service available to an external client
 from the cluster, the user can setup an Ingress to the provided service with the `NGINX` provider.
- 
+
 Optionally, the user can also provision TLS encryption. In this case, the client will have to be updated to trust the
 certificate authority (CA).
 
@@ -125,7 +131,7 @@ This application successfully implements cloud native understanding.
 
 #### 12factor app best practices
 
-12-factor app best practices include - storing config in the environment, one codebase tracked in version control,
-separate build and run stages, services exposed via port binding, logs as event streams, etc.
+[12-factor app best practices](https://12factor.net/) include - storing config in the environment, one codebase tracked
+in version control, separate build and run stages, services exposed via port binding, logs as event streams, etc.
 
 This application successfully implements 12 factor app best practices.
