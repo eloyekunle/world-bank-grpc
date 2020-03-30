@@ -32,5 +32,5 @@ func runServer(cmd *cobra.Command, args []string) {
 	worldbank.RegisterWorldBankServer(grpcServer, server.NewServer())
 
 	klog.Infof("gRPC server listening on port: %d", port)
-	grpcServer.Serve(lis)
+	klog.Exit(grpcServer.Serve(lis))
 }

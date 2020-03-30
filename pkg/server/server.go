@@ -44,6 +44,21 @@ func NewServer() *WorldBankServer {
 	return s
 }
 
+func (s *WorldBankServer) ListRegions(req *pb.Void, stream pb.WorldBank_ListRegionsServer) error {
+	for _, region := range s.regions {
+		pbRegion := &pb.Region{
+			Id:   region.ID,
+			Name: region.Code,
+		}
+
+		if err := stream.Send(pbRegion); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (s *WorldBankServer) loadCountries() {
 	_, countries, err := s.client.Countries.ListCountries(wbdata.PageParams{
 		Page:    1,
@@ -58,9 +73,13 @@ func (s *WorldBankServer) loadCountries() {
 	})
 
 	for _, country := range countries {
-		if country.Region.ID != "NA" {
-			s.countries[country.ID] = &country
+		country := country
+
+		if country.Region.ID == "NA" {
+			continue
 		}
+
+		s.countries[country.ID] = &country
 
 		if _, ok := s.regions[country.Region.ID]; !ok {
 			s.regions[country.Region.ID] = &country.Region

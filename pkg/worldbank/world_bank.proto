@@ -3,9 +3,6 @@ syntax = "proto3";
 package worldbank;
 
 service WorldBank {
-    rpc ListCountries (Void) returns (stream Country) {
-    }
-
     rpc ListRegions (Void) returns (stream Region) {
     }
 
@@ -15,7 +12,7 @@ service WorldBank {
     rpc ListLendingTypes (Void) returns (stream LendingType) {
     }
 
-    rpc SearchCountry (SearchString) returns (stream Country) {
+    rpc ListCountries (Void) returns (stream Country) {
     }
 
     rpc GetCountry (CountryID) returns (Country) {
