@@ -15,6 +15,7 @@ func PrintRegions(ctx context.Context, client pb.WorldBankClient) {
 		klog.Exitf("%v.PrintRegions(_) = _, %v: ", client, err)
 	}
 
+	i := 1
 	for {
 		region, err := stream.Recv()
 		if err == io.EOF {
@@ -24,7 +25,8 @@ func PrintRegions(ctx context.Context, client pb.WorldBankClient) {
 			klog.Exitf("%v.PrintRegions(_) = _, %v: ", client, err)
 		}
 
-		fmt.Println(region)
+		fmt.Printf("%d - %s (ID: %s)\n", i, region.GetName(), region.GetId())
+		i++
 	}
 }
 
@@ -34,6 +36,7 @@ func PrintIncomeLevels(ctx context.Context, client pb.WorldBankClient) {
 		klog.Exitf("%v.PrintIncomeLevels(_) = _, %v: ", client, err)
 	}
 
+	i := 1
 	for {
 		incomeLevel, err := stream.Recv()
 		if err == io.EOF {
@@ -43,7 +46,8 @@ func PrintIncomeLevels(ctx context.Context, client pb.WorldBankClient) {
 			klog.Exitf("%v.PrintIncomeLevels(_) = _, %v: ", client, err)
 		}
 
-		fmt.Println(incomeLevel)
+		fmt.Printf("%d - %s (ID: %s)\n", i, incomeLevel.GetName(), incomeLevel.GetId())
+		i++
 	}
 }
 
@@ -53,6 +57,7 @@ func PrintLendingTypes(ctx context.Context, client pb.WorldBankClient) {
 		klog.Exitf("%v.PrintLendingTypes(_) = _, %v: ", client, err)
 	}
 
+	i := 1
 	for {
 		lendingType, err := stream.Recv()
 		if err == io.EOF {
@@ -62,7 +67,8 @@ func PrintLendingTypes(ctx context.Context, client pb.WorldBankClient) {
 			klog.Exitf("%v.PrintLendingTypes(_) = _, %v: ", client, err)
 		}
 
-		fmt.Println(lendingType)
+		fmt.Printf("%d - %s (ID: %s)\n", i, lendingType.GetName(), lendingType.GetId())
+		i++
 	}
 }
 
@@ -72,6 +78,7 @@ func PrintCountries(ctx context.Context, client pb.WorldBankClient, filter *pb.C
 		klog.Exitf("%v.PrintCountries(_) = _, %v: ", client, err)
 	}
 
+	i := 1
 	for {
 		country, err := stream.Recv()
 		if err == io.EOF {
@@ -81,7 +88,8 @@ func PrintCountries(ctx context.Context, client pb.WorldBankClient, filter *pb.C
 			klog.Exitf("%v.PrintCountries(_) = _, %v: ", client, err)
 		}
 
-		fmt.Println(country)
+		fmt.Printf("%d - %s (ID: %s)\n", i, country.GetName(), country.GetId())
+		i++
 	}
 }
 
@@ -91,5 +99,6 @@ func PrintCountry(ctx context.Context, client pb.WorldBankClient, countryID *pb.
 		klog.Exitf("%v.PrintCountry(_) = _, %v: ", client, err)
 	}
 
-	fmt.Println(country)
+	fmt.Printf("ID: %s\nName: %s\nCapital: %s\nRegion: %s\nIncome Level: %s\nLending Type: %s\n",
+		country.GetId(), country.GetName(), country.GetCapital(), country.GetRegion(), country.GetIncomeLevel(), country.GetLendingType())
 }
