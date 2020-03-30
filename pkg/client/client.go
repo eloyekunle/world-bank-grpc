@@ -1,5 +1,3 @@
-//go:generate mockgen github.com/eloyekunle/world-bank-grpc/pkg/worldbank WorldBankClient,WorldBank_ListRegionsClient > pkg/mock_worldbank/wb_mock.go
-
 package client
 
 import (

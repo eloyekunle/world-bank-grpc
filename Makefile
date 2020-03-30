@@ -62,7 +62,7 @@ lint:
 $(BUILD_DIRS):
 	@mkdir -p $@
 
-generate:
+generate: mockgen
 	@ if ! which protoc > /dev/null; then \
 		echo "error: protoc not installed" >&2; \
 		exit 1; \
@@ -71,3 +71,7 @@ generate:
 
 clean:
 	rm -rf .go bin
+
+.PHONY: mockgen
+mockgen:
+	mockgen github.com/eloyekunle/world-bank-grpc/pkg/worldbank WorldBankClient,WorldBank_ListRegionsClient > pkg/mock_worldbank/wb_mock.go
