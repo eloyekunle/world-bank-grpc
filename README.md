@@ -1,11 +1,10 @@
 ### World Bank gRPC
 
 [![Build Status](https://travis-ci.com/eloyekunle/world-bank-grpc.svg?token=gE7ya6SNZs6o39nbGJAd&branch=master)](https://travis-ci.com/eloyekunle/world-bank-grpc)
-[![GoDoc](https://godoc.org/github.com/eloyekunle/world-bank-grpc?status.svg)](https://godoc.org/github.com/eloyekunle/world-bank-grpc)
-[![](https://images.microbadger.com/badges/image/playmice/world-bank-grpc.svg)](https://microbadger.com/images/playmice/world-bank-grpc "Get your own image badge on microbadger.com")
 [![Go Report Card](https://goreportcard.com/badge/github.com/eloyekunle/world-bank-grpc)](https://goreportcard.com/report/github.com/eloyekunle/world-bank-grpc)
 
 This is a simple application to get country data from the [World Bank API](https://datahelpdesk.worldbank.org/knowledgebase/articles/889386-developer-information-overview).
+
 Countries can be filtered based on their:
 
 1. Income Levels
@@ -96,13 +95,26 @@ bin/world-bank-grpc client country --id NGA
 | 1   | PORT     | 50001           | server     |
 | 2   | HOST     | localhost:50001 | client     |
 
+#### Tests
+
+We use [mocking](./pkg/mock_worldbank) to test client-side logic without the overhead of connecting to a real server.
+Mocking enables users to write light-weight unit tests to check functionalities on client-side without invoking RPC calls to a server.
+
+To create and update the mock, we use [mockgen](https://github.com/golang/mock#running-mockgen). Run this:
+
+```shell script
+make mockgen
+```
+
+When tests have passed, the application is built and automatically deployed to [Docker Hub](https://hub.docker.com/repository/docker/playmice/world-bank-grpc).
+
 #### Kubernetes
 
-Kubernetes manifests have been provided in [kubernetes](./kubernetes). 
+Kubernetes manifests have been provided in [kubernetes](./kubernetes).
 
 To make the service available to an external client
 from the cluster, the user can setup an Ingress to the provided service with the `NGINX` provider.
- 
+
 Optionally, the user can also provision TLS encryption. In this case, the client will have to be updated to trust the
 certificate authority (CA).
 
@@ -127,7 +139,7 @@ This application successfully implements cloud native understanding.
 
 #### 12factor app best practices
 
-12-factor app best practices include - storing config in the environment, one codebase tracked in version control,
-separate build and run stages, services exposed via port binding, logs as event streams, etc.
+[12-factor app best practices](https://12factor.net/) include - storing config in the environment, one codebase tracked
+in version control, separate build and run stages, services exposed via port binding, logs as event streams, etc.
 
 This application successfully implements 12 factor app best practices.
