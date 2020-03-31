@@ -33,9 +33,9 @@ func TestGetCountry(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockWorldBankClient := wbmock.NewMockWorldBankClient(ctrl)
 	req := &worldbank.CountryID{Id: "NGA"}
 
+	mockWorldBankClient := wbmock.NewMockWorldBankClient(ctrl)
 	mockWorldBankClient.EXPECT().GetCountry(
 		gomock.Any(),
 		&rpcMsg{msg: req},
@@ -45,13 +45,56 @@ func TestGetCountry(t *testing.T) {
 }
 
 func testGetCountry(t *testing.T, client worldbank.WorldBankClient) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	r, err := client.GetCountry(ctx, &worldbank.CountryID{Id: "NGA"})
 	if err != nil || r.Capital != "Abuja" {
-		t.Errorf("mocking failed")
+		t.Fatalf("mocking failed")
 	}
 
-	t.Log("Reply : ", r.Capital)
+	t.Log("Reply:", r.Capital)
+}
+
+var msg = &worldbank.Region{
+	Id:   "SSF",
+	Name: "Sub-Saharan Africa",
+}
+
+func TestListRegions(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	stream := wbmock.NewMockWorldBank_ListRegionsClient(ctrl)
+	stream.EXPECT().Recv().Return(msg, nil)
+
+	mockWorldBankClient := wbmock.NewMockWorldBankClient(ctrl)
+	mockWorldBankClient.EXPECT().ListRegions(
+		gomock.Any(),
+		gomock.Any(),
+	).Return(stream, nil)
+
+	if err := testListRegions(mockWorldBankClient); err != nil {
+		t.Fatalf("Test failed: %v", err)
+	}
+}
+
+func testListRegions(client worldbank.WorldBankClient) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	stream, err := client.ListRegions(ctx, &worldbank.Void{})
+	if err != nil {
+		return err
+	}
+
+	got, err := stream.Recv()
+	if err != nil {
+		return err
+	}
+	if !proto.Equal(got, msg) {
+		return fmt.Errorf("stream.Recv() = %v, want %v", got, msg)
+	}
+
+	return nil
 }
